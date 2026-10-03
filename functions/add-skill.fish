@@ -1,5 +1,5 @@
 function add-skill --description "Busca interativa, instala e sincroniza skills do skills.sh"
-    set -l _version "0.1.2"
+    set -l _version "0.2.0"
     argparse h/help v/version -- $argv; or return 1
 
     if set -q _flag_version
