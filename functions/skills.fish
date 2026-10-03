@@ -20,21 +20,21 @@ function skills --description "Gerenciador de skills (plugins) e integrações d
     _skills_check_update $_version
 
     # Intercepta -v / --version
-    if contains -- -v $argv; or contains -- --version $argv
+    if test "$argv[1]" = "-v"; or test "$argv[1]" = "--version"
         echo "skills-fish $_version"
         echo "(wraps npx skills "(npx skills -v)")"
         return 0
     end
 
     # Intercepta ajuda ou nenhum argumento para mostrar nossa interface
-    if test (count $argv) -eq 0; or contains -- -h $argv; or contains -- --help $argv
+    if test (count $argv) -eq 0; or test "$argv[1]" = "-h"; or test "$argv[1]" = "--help"
         echo "Uso: skills <comando> [opções]"
         echo ""
         echo "Um gerenciador e instalador interativo para skills de IA."
         echo ""
         echo "Comandos Principais:"
         echo "  add, a     Adiciona uma skill interativamente (ex: skills add)"
-        echo "  list, ls   Lista as skills instaladas no projeto atual"
+        echo "  list, ls   Lista as skills instaladas no projeto atual (use -g para globais)"
         echo "  remove, rm Remove skills instaladas"
         echo "  update     Atualiza as skills instaladas"
         echo "  find       Busca skills no diretório"
