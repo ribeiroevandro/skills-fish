@@ -64,7 +64,7 @@ Para publicar uma nova versão (exemplo: `v0.1.3`):
 
 ## 4. Como o Usuário Recebe a Atualização
 
-1. **Detecção:** Na próxima execução do comando `add-skill`, a função `_add_skill_check_update` consulta o endpoint `releases/latest` do GitHub (respeitando o cache local de 24h).
+1. **Detecção:** Na próxima execução do comando `add-skill`, a função `_skills_check_update` consulta o endpoint `releases/latest` do GitHub (respeitando o cache local de 24h).
 2. **Aviso:** O usuário visualiza:
    ```text
    💡 Nova versão do skills-fish disponível: v0.1.3

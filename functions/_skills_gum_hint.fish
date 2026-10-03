@@ -1,6 +1,6 @@
 # Imprime o comando de instalação do gum para o gerenciador de pacotes disponível.
 # Sem gerenciador com pacote direto (ex.: apt, zypper), aponta para a documentação oficial.
-function _add_skill_gum_hint
+function _skills_gum_hint
     if command -q brew
         echo "brew install gum"
     else if command -q pacman

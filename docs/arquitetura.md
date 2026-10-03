@@ -16,7 +16,7 @@ skills-fish/
 │   ├── add-skill.fish          # Ponto de entrada público do comando
 │   ├── _add_skill_select.fish  # Busca e menu interativo (gum choose)
 │   ├── _add_skill_sync.fish    # Symlink para o Antigravity (~/.gemini/antigravity-cli/skills)
-│   ├── _add_skill_check_update.fish # Verificação periódica de releases no GitHub
+│   ├── _skills_check_update.fish # Verificação periódica de releases no GitHub
 │   └── _add_skill_gum_hint.fish # Dicas de instalação do gum por gerenciador de pacotes
 ├── completions/
 │   └── add-skill.fish          # Autocompletar no Fish (-g, -p, -v, -h)
@@ -34,7 +34,7 @@ skills-fish/
    │      -v / --version  ──► Exibe versão e sai
    │      -h / --help     ──► Exibe ajuda e sai
    │
-   ├─► Verificação de Atualização (_add_skill_check_update)
+   ├─► Verificação de Atualização (_skills_check_update)
    │      - Consulta cache em ~/.cache/skills-fish/ (TTL: 24h)
    │      - Se expirado, consulta /releases/latest no GitHub (timeout: 1s)
    │      - Se houver versão superior, exibe banner amarelo não bloqueante
@@ -68,5 +68,5 @@ skills-fish/
 - **`add-skill`**: Orquestrador principal. Valida flags via `argparse`, dispara verificações de atualização e dependências, e coordena a instalação.
 - **`_add_skill_select`**: Executa `npx skills find` sob um spinner (`gum spin`), limpa códigos de escape ANSI com `perl`, formata as colunas com `awk` e exibe a seleção com cursor customizado.
 - **`_add_skill_sync`**: Garante que skills instaladas globalmente em `~/.agents/skills/` fiquem visíveis para a CLI do Antigravity (`agy`) sem provocar duplicação ou conflito com o Gemini CLI.
-- **`_add_skill_check_update`**: Realiza checagem SemVer pura e assíncrona/cacheada contra a API do GitHub Releases com zero impacto de latência para o usuário.
+- **`_skills_check_update`**: Realiza checagem SemVer pura e assíncrona/cacheada contra a API do GitHub Releases com zero impacto de latência para o usuário.
 - **`_add_skill_gum_hint`**: Detecta qual gerenciador de pacotes do sistema está presente (`brew`, `pacman`, `dnf`, `nix-env`, `pkg`) para orientar a instalação do `gum` com o comando exato.

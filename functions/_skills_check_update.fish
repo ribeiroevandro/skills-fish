@@ -1,6 +1,6 @@
 # Verifica se há uma versão mais recente do plugin no GitHub (com cache de 24h e timeout de 1s).
 # Pode ser desativado definindo: set -g skills_fish_check_update 0
-function _add_skill_check_update
+function _skills_check_update
     test "$skills_fish_check_update" = "0"; and return 0
 
     set -l current_version $argv[1]
@@ -48,8 +48,8 @@ function _add_skill_check_update
     end
 
     if test $is_newer -eq 1
-        set -l title_color (set -q add_skill_color_title; and echo $add_skill_color_title; or echo cyan)
-        set -l header_color (set -q add_skill_color_header; and echo $add_skill_color_header; or echo blue)
+        set -l title_color (set -q skills_color_title; and echo $skills_color_title; or echo cyan)
+        set -l header_color (set -q skills_color_header; and echo $skills_color_header; or echo blue)
 
         echo
         set_color yellow
