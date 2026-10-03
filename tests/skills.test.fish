@@ -47,9 +47,10 @@ source functions/skills.fish
 ) != ""
 
 @test "repassa flags e alvo corretamente no comando add" (
+    function gum; end
     function npx
         echo "cmd:$argv[2] flag:$argv[3] target:$argv[4]"
     end
     skills add -g vercel-labs/agent-skills@vercel-optimize
-    functions -e npx
+    functions -e gum npx
 ) = "cmd:add flag:-g target:vercel-labs/agent-skills@vercel-optimize"
