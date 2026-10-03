@@ -1,0 +1,14 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node & Agent skills (testes locais)
+node_modules/
+.agents/
+skills-lock.json
