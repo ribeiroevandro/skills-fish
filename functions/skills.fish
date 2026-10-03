@@ -1,5 +1,5 @@
 function skills --description "Gerenciador de skills (plugins) e integrações de ferramentas de IA para o Fish shell"
-    set -l _version "0.3.0"
+    set -l _version "0.2.1"
 
     set -l missing
     if not command -q gum
