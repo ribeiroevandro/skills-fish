@@ -20,4 +20,11 @@ jobs:
           sudo apt-get install -y fish
 
       - name: Validate Fish syntax
-        run: fish --no-execute conf.d/*.fish completions/*.fish functions/*.fish
+        run: fish --no-execute conf.d/*.fish completions/*.fish functions/*.fish tests/*.test.fish
+
+      - name: Install fishtape
+        run: |
+          fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fishtape"
+
+      - name: Run unit tests
+        run: fish -c "fishtape tests/*.test.fish"
