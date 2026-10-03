@@ -43,8 +43,9 @@ function skills --description "Gerenciador de skills (plugins) e integrações d
         echo "  -h, --help     Mostra esta ajuda"
         echo "  -v, --version  Mostra a versão do plugin (e do npx skills base)"
         echo ""
-        echo "Nota: Qualquer outro comando ou flag é repassado diretamente ao 'npx skills'."
-        echo "Dica: Digite 'npx skills -h' para ver a lista completa de comandos avançados."
+        echo "Nota: Este plugin é 100% compatível com a CLI nativa."
+        echo "Dica: Qualquer comando ou flag do 'npx skills' pode ser usado diretamente aqui."
+        echo "      (ex: skills find react --owner vercel)"
         return 0
     end
 
