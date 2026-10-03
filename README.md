@@ -1,6 +1,7 @@
 # skills-fish
 
 [![Latest Release](https://img.shields.io/github/v/release/ribeiroevandro/skills-fish?color=blue&label=release)](https://github.com/ribeiroevandro/skills-fish/releases/latest)
+[![CI](https://github.com/ribeiroevandro/skills-fish/actions/workflows/ci.yml/badge.svg)](https://github.com/ribeiroevandro/skills-fish/actions/workflows/ci.yml)
 [![Fisher](https://img.shields.io/badge/fisher-compatible-blue?logo=fishshell&logoColor=white)](https://github.com/jorgebucaran/fisher)
 [![Fish Shell](https://img.shields.io/badge/fish-%E2%89%A53.0-orange?logo=fishshell&logoColor=white)](https://fishshell.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
