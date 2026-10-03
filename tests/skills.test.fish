@@ -23,6 +23,11 @@ source functions/skills.fish
     skills -h
 )[1] = "Uso: skills <comando> [opções]"
 
+@test "falha com status 1 quando 'add' não recebe argumentos" (
+    skills add 2>/dev/null
+    echo $status
+) = 1
+
 @test "função de sync retorna 0 com segurança quando a skill não existe localmente" (
     _skills_sync "owner/repo@nonexistent-skill-xyz"
     echo $status
