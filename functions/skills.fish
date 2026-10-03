@@ -1,28 +1,10 @@
 function skills --description "Gerenciador de skills (plugins) e integrações de ferramentas de IA para o Fish shell"
     set -l _version "0.2.1"
 
-    set -l missing
-    if not command -q gum
-        set missing gum (_skills_gum_hint)
-    else if not command -q npx
-        set missing npx "instale o Node.js: https://nodejs.org"
-    end
-
-    if set -q missing[1]
-        set_color $skills_color_error >&2
-        echo "skills: o comando '$missing[1]' não foi encontrado." >&2
-        set_color normal >&2
-        echo "Para instalar: $missing[2]" >&2
-        return 127
-    end
-
-    # Check for update in background
-    _skills_check_update $_version
-
     # Intercepta -v / --version
     if test "$argv[1]" = "-v"; or test "$argv[1]" = "--version"
         echo "skills-fish $_version"
-        echo "(wraps npx skills "(npx skills -v)")"
+        echo "(wraps npx skills "(npx skills -v 2>/dev/null; or echo "não instalado")")"
         return 0
     end
 
@@ -48,6 +30,24 @@ function skills --description "Gerenciador de skills (plugins) e integrações d
         echo "      (ex: skills find react --owner vercel)"
         return 0
     end
+
+    set -l missing
+    if not command -q gum
+        set missing gum (_skills_gum_hint)
+    else if not command -q npx
+        set missing npx "instale o Node.js: https://nodejs.org"
+    end
+
+    if set -q missing[1]
+        set_color $skills_color_error >&2
+        echo "skills: o comando '$missing[1]' não foi encontrado." >&2
+        set_color normal >&2
+        echo "Para instalar: $missing[2]" >&2
+        return 127
+    end
+
+    # Check for update in background
+    _skills_check_update $_version
 
     set -l subcommand $argv[1]
 
