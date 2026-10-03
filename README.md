@@ -37,10 +37,6 @@ fisher install ribeiroevandro/skills-fish
 # Busca interativa por nome (pergunta o escopo: global ou projeto)
 add-skill react
 
-# Instalação direta com escopo explícito via flag
-add-skill -g dono/repo@nome-da-skill
-add-skill -p dono/repo@nome-da-skill
-
 # Ajuda e versão
 add-skill --help
 add-skill --version
