@@ -4,7 +4,6 @@ function skills --description "Gerenciador de skills (plugins) e integrações d
     # Intercepta -v / --version
     if test "$argv[1]" = "-v"; or test "$argv[1]" = "--version"
         echo "skills-fish $_version"
-        echo "(wraps npx skills "(npx skills -v 2>/dev/null; or echo "não instalado")")"
         return 0
     end
 
@@ -54,15 +53,8 @@ function skills --description "Gerenciador de skills (plugins) e integrações d
     # Intercept 'add' or 'a' to provide interactive search
     if contains -- $subcommand add a
         # Separate flags from arguments
-        set -l flags
-        set -l targets
-        for arg in $argv[2..-1]
-            if string match -q -- "-*" $arg
-                set -a flags $arg
-            else
-                set -a targets $arg
-            end
-        end
+        set -l flags (string match -e -r '^-' -- $argv[2..-1])
+        set -l targets (string match -v -r '^-' -- $argv[2..-1])
 
         set -l install_target $targets[1]
 

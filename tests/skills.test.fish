@@ -45,3 +45,11 @@ source functions/skills.fish
 @test "detector de gum hint retorna comando não vazio" (
     _skills_gum_hint
 ) != ""
+
+@test "repassa flags e alvo corretamente no comando add" (
+    function npx
+        echo "cmd:$argv[2] flag:$argv[3] target:$argv[4]"
+    end
+    skills add -g vercel-labs/agent-skills@vercel-optimize
+    functions -e npx
+) = "cmd:add flag:-g target:vercel-labs/agent-skills@vercel-optimize"

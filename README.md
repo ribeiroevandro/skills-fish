@@ -20,7 +20,7 @@ O comando `skills` é um wrapper 100% compatível com a CLI oficial `npx skills`
 - [Fish](https://fishshell.com) 3.x ou superior
 - [gum](https://github.com/charmbracelet/gum) (`brew install gum`)
 - [Node.js](https://nodejs.org) (para o `npx`)
-- `perl`, `grep`, `awk` e `sed` (já vêm no macOS e na maioria das distribuições Linux)
+- `grep` e `awk` (já vêm no macOS e na maioria das distribuições Linux)
 
 Se o `gum` ou o `npx` não estiver instalado, o comando encerra e mostra instruções de instalação para o seu sistema.
 
