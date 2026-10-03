@@ -7,7 +7,7 @@ source functions/skills.fish
 
 @test "mostra versão do plugin com flag -v" (
     skills -v
-)[1] = "skills-fish 0.6.2"
+)[1] = "skills-fish 0.6.3"
 
 @test "mostra ajuda com status 0 ao passar -h" (
     skills -h >/dev/null
@@ -38,7 +38,7 @@ source functions/skills.fish
 
 @test "checagem de atualização sai com status 0 quando desativada por variável" (
     set -l skills_fish_check_update 0
-    _skills_check_update 0.6.2
+    _skills_check_update 0.6.3
     echo $status
 ) = 0
 
