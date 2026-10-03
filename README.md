@@ -65,6 +65,14 @@ O `add-skill` verifica periodicamente (a cada 24 horas, via cache local em `~/.c
 set -g skills_fish_check_update 0
 ```
 
+## Documentação
+
+Para aprofundar na arquitetura e funcionamento interno do plugin:
+
+- [Arquitetura do Plugin](docs/arquitetura.md) — fluxo do comando `add-skill` e estrutura de funções.
+- [Interoperabilidade com Assistentes de IA](docs/interoperabilidade-ia.md) — comparativo entre ferramentas e prevenção de conflitos de symlink.
+- [Versionamento e Releases](docs/versionamento-e-releases.md) — SemVer, automação no GitHub Actions e publicação.
+
 ## Desinstalação
 
 ```fish
