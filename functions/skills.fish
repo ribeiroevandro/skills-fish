@@ -65,8 +65,14 @@ function skills --description "Gerenciador de skills (plugins) e integrações d
 
         set -l install_target $targets[1]
 
-        # If there is exactly one target and it's not a URL or explicit owner/repo format
-        if set -q install_target[1]; and not string match -q '*@*' -- $install_target; and not string match -q 'http*' -- $install_target
+        if not set -q install_target[1]
+            echo "Uso: skills $subcommand <nome-da-skill | dono/repo@skill>" >&2
+            echo "Dica: use 'skills find' para buscar." >&2
+            return 1
+        end
+
+        # If it's a simple name (not a URL or explicit owner/repo format), search interactively
+        if not string match -q '*@*' -- $install_target; and not string match -q 'http*' -- $install_target
             set install_target (_skills_select $install_target)
             if not set -q install_target[1]
                 gum style --foreground=$skills_color_error "Instalação cancelada. Saindo..."
