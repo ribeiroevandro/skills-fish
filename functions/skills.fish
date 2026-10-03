@@ -1,5 +1,5 @@
 function skills --description "Gerenciador de skills (plugins) e integrações de ferramentas de IA para o Fish shell"
-    set -l _version "0.2.1"
+    set -l _version "0.3.0"
 
     # Intercepta -v / --version
     if test "$argv[1]" = "-v"; or test "$argv[1]" = "--version"
