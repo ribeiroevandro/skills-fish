@@ -6,14 +6,14 @@
 [![Fish Shell](https://img.shields.io/badge/fish-%E2%89%A53.0-orange?logo=fishshell&logoColor=white)](https://fishshell.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Plugin para o [Fish Shell](https://fishshell.com) que busca, instala e sincroniza skills do [skills.sh](https://skills.sh) de forma interativa.
+Plugin para o [Fish Shell](https://fishshell.com) que gerencia, busca e sincroniza skills do ecossistema [skills.sh](https://skills.sh) com assistentes de IA (Antigravity, Claude Code, Cursor, Codex, Gemini CLI e outros).
 
-O comando `add-skill`:
+O comando `skills` é um wrapper 100% compatível com a CLI oficial `npx skills`, trazendo melhorias nativas para o terminal Fish:
 
-1. busca skills com `npx skills find` e mostra os resultados em um menu interativo (`gum choose`);
-2. pergunta onde instalar (global ou no projeto) se nenhuma flag for informada;
-3. instala a skill escolhida com `npx skills add` (com `-g` se global);
-4. se instalada globalmente, cria um link simbólico da skill em `~/.gemini/antigravity-cli/skills/`, deixando-a disponível no Antigravity sem conflito com o Gemini CLI.
+1. **Busca interativa** com `skills add <termo>` via `gum choose`;
+2. **Sincronização automática** com o Antigravity (`~/.gemini/antigravity-cli/skills/`) quando uma skill for instalada globalmente, prevenindo conflitos com o Gemini CLI;
+3. **Autocompletar nativo completo** no Fish para todos os comandos e flags;
+4. **Verificação periódica e não intrusiva de novas versões**.
 
 ## Dependências
 
@@ -22,7 +22,7 @@ O comando `add-skill`:
 - [Node.js](https://nodejs.org) (para o `npx`)
 - `perl`, `grep`, `awk` e `sed` (já vêm no macOS e na maioria das distribuições Linux)
 
-Se o `gum` ou o `npx` não estiver instalado, o `add-skill` encerra e mostra como instalar. Para o `gum`, o comando sugerido depende do gerenciador de pacotes encontrado (`brew`, `pacman`, `dnf`, `nix-env` ou `pkg`). Sem nenhum deles (por exemplo, no Debian/Ubuntu com `apt`), aparece o link da [documentação oficial](https://github.com/charmbracelet/gum#installation).
+Se o `gum` ou o `npx` não estiver instalado, o comando encerra e mostra instruções de instalação para o seu sistema.
 
 ## Instalação
 
@@ -35,33 +35,46 @@ fisher install ribeiroevandro/skills-fish
 ## Uso
 
 ```fish
-# Busca interativa por nome (pergunta o escopo: global ou projeto)
-add-skill react
+# Busca e instalação interativa
+skills add react
+
+# Instalação direta (suporta todas as flags do npx skills)
+skills add -g vercel-labs/agent-skills@vercel-optimize
+
+# Listar skills instaladas (projeto ou global)
+skills list
+skills list -g
+
+# Remover skills
+skills remove react
+
+# Atualizar skills
+skills update
 
 # Ajuda e versão
-add-skill --help
-add-skill --version
+skills --help
+skills --version
 ```
 
 ## Personalização de cores
 
-As cores padrão são definidas em `conf.d/add-skill.fish` e só são aplicadas quando você ainda não definiu a variável. Para mudar alguma, defina-a no seu `~/.config/fish/config.fish`:
+As cores padrão são definidas em `conf.d/skills.fish` e preservam personalizações do usuário. Para mudar alguma, defina-a no seu `~/.config/fish/config.fish`:
 
 ```fish
-set -g add_skill_color_header "#cba6f7"
+set -g skills_color_header "#cba6f7"
 ```
 
 | Variável | Padrão | Uso |
 |---|---|---|
-| `add_skill_color_unselected` | `#6c7086` | Itens não selecionados no menu |
-| `add_skill_color_header` | `#89b4fa` | Cabeçalho do menu |
-| `add_skill_color_selected` | `#94e2d5` | Cursor do menu |
-| `add_skill_color_error` | `#f38ba8` | Item selecionado e mensagens de erro |
-| `add_skill_color_title` | `#74c7ec` | Nome da skill no spinner de busca |
+| `skills_color_unselected` | `#6c7086` | Itens não selecionados no menu |
+| `skills_color_header` | `#89b4fa` | Cabeçalho do menu |
+| `skills_color_selected` | `#94e2d5` | Cursor do menu |
+| `skills_color_error` | `#f38ba8` | Item selecionado e mensagens de erro |
+| `skills_color_title` | `#74c7ec` | Nome da skill no spinner de busca |
 
 ## Verificação de atualizações
 
-O `add-skill` verifica periodicamente (a cada 24 horas, via cache local em `~/.cache/skills-fish/`) se existe uma versão mais recente no GitHub e avisa quando houver. Para desativar essa checagem, adicione ao seu `~/.config/fish/config.fish`:
+O `skills` verifica periodicamente (a cada 24 horas, via cache local em `~/.cache/skills-fish/`) se existe uma versão mais recente no GitHub e avisa de forma não bloqueante. Para desativar essa checagem, adicione ao seu `~/.config/fish/config.fish`:
 
 ```fish
 set -g skills_fish_check_update 0
@@ -71,9 +84,9 @@ set -g skills_fish_check_update 0
 
 Para aprofundar na arquitetura e funcionamento interno do plugin:
 
-- [Arquitetura do Plugin](docs/arquitetura.md) — fluxo do comando `add-skill` e estrutura de funções.
+- [Arquitetura do Plugin](docs/arquitetura.md) — fluxo do comando `skills`, separação de funções e wrapper.
 - [Interoperabilidade com Assistentes de IA](docs/interoperabilidade-ia.md) — comparativo entre ferramentas e prevenção de conflitos de symlink.
-- [Versionamento e Releases](docs/versionamento-e-releases.md) — SemVer, automação no GitHub Actions e publicação.
+- [Versionamento e Releases](docs/versionamento-e-releases.md) — SemVer, Makefile, automação no GitHub Actions e publicação.
 
 ## Desinstalação
 

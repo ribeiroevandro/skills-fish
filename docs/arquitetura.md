@@ -1,6 +1,6 @@
 # Arquitetura do skills-fish
 
-O **skills-fish** é um plugin para o [Fish Shell](https://fishshell.com) desenhado para integrar o ecossistema aberto de skills ([skills.sh](https://skills.sh)) com assistentes de IA — em especial o **Antigravity** e o **Gemini CLI**.
+O **skills-fish** é um plugin para o [Fish Shell](https://fishshell.com) que atua como um wrapper completo para o [skills.sh](https://skills.sh) (`npx skills`), integrando-o de forma nativa e ergonômica com assistentes de IA — em especial o **Antigravity** e o **Gemini CLI**.
 
 ---
 
@@ -11,62 +11,62 @@ O projeto segue a especificação canônica do Fish e do gerenciador [Fisher](ht
 ```text
 skills-fish/
 ├── conf.d/
-│   └── add-skill.fish          # Variáveis globais e tema (executado no startup do shell)
+│   └── skills.fish             # Variáveis globais e paleta de cores (startup)
 ├── functions/
-│   ├── add-skill.fish          # Ponto de entrada público do comando
-│   ├── _add_skill_select.fish  # Busca e menu interativo (gum choose)
-│   ├── _add_skill_sync.fish    # Symlink para o Antigravity (~/.gemini/antigravity-cli/skills)
-│   ├── _skills_check_update.fish # Verificação periódica de releases no GitHub
-│   └── _add_skill_gum_hint.fish # Dicas de instalação do gum por gerenciador de pacotes
+│   ├── skills.fish             # Ponto de entrada público do comando wrapper
+│   ├── _skills_select.fish     # Busca e menu interativo (gum choose)
+│   ├── _skills_sync.fish       # Symlink para o Antigravity (~/.gemini/antigravity-cli/skills)
+│   ├── _skills_check_update.fish # Verificação de releases (redirect HTTP, sem rate limit)
+│   └── _skills_gum_hint.fish   # Dicas de instalação do gum por gerenciador de pacotes
 ├── completions/
-│   └── add-skill.fish          # Autocompletar no Fish (-g, -p, -v, -h)
+│   └── skills.fish             # Autocompletar completo para todos os comandos e flags
+├── tests/
+│   └── skills.test.fish        # Suíte de testes com fishtape (TAP v13)
+├── Makefile                    # Automação de testes, dev, deploy e releases
 └── docs/                       # Documentação técnica do projeto
 ```
 
 ---
 
-## 2. Fluxo de Execução (`add-skill`)
+## 2. Fluxo de Execução (`skills`)
 
 ```
-[Início] add-skill <query | alvo>
+[Início] skills [subcomando] [opções / alvos]
    │
    ├─► Flags imediatas?
-   │      -v / --version  ──► Exibe versão e sai
+   │      -v / --version  ──► Exibe versão do skills-fish e do npx skills e sai
    │      -h / --help     ──► Exibe ajuda e sai
-   │
-   ├─► Verificação de Atualização (_skills_check_update)
-   │      - Consulta cache em ~/.cache/skills-fish/ (TTL: 24h)
-   │      - Se expirado, consulta /releases/latest no GitHub (timeout: 1s)
-   │      - Se houver versão superior, exibe banner amarelo não bloqueante
+   │      (sem argumentos)──► Exibe ajuda amigável da CLI
    │
    ├─► Verificação de Dependências
    │      - gum (renderização dos menus)
    │      - npx / Node.js
    │
-   ├─► Resolução do Alvo
-   │      - Se já contém '@' (ex: dono/repo@skill) ──► Usa direto
-   │      - Se for apenas termo (ex: react)        ──► Abre menu via gum choose
+   ├─► Verificação de Atualização (_skills_check_update)
+   │      - Consulta cache em ~/.cache/skills-fish/ (TTL: 24h)
+   │      - Se expirado, consulta redirect de /releases/latest no GitHub
+   │      - Se houver versão superior, exibe banner amarelo não bloqueante
    │
-   ├─► Definição do Escopo de Instalação
-   │      - Se passou -g/--global  ──► Global
-   │      - Se passou -p/--project ──► Projeto atual
-   │      - Sem flag ──────────────► Pergunta interativamente via gum choose
-   │
-   ├─► Execução da Instalação
-   │      - Global:  npx skills add -g <alvo>
-   │      - Projeto: npx skills add <alvo>
-   │
-   └─► Sincronização (_add_skill_sync)
-          - Se Global: cria link simbólico em ~/.gemini/antigravity-cli/skills/
-          - Se Projeto: dispensa links (Antigravity já lê ./.agents/skills)
+   ├─► O subcomando é 'add' ou 'a'?
+   │      │
+   │      ├─► SIM:
+   │      │    1. Separa flags (-g, -y, etc.) de alvos (dono/repo@skill ou nome)
+   │      │    2. Se for nome simples: busca interativamente via _skills_select
+   │      │    3. Executa: npx skills add [flags] <alvo>
+   │      │    4. Se instalado em ~/.agents/skills (escopo global):
+   │      │       executa _skills_sync para vincular ao Antigravity
+   │      │
+   │      └─► NÃO:
+   │           Repassa todos os argumentos diretamente:
+   │           npx skills $argv
 ```
 
 ---
 
 ## 3. Separação de Responsabilidades das Funções
 
-- **`add-skill`**: Orquestrador principal. Valida flags via `argparse`, dispara verificações de atualização e dependências, e coordena a instalação.
-- **`_add_skill_select`**: Executa `npx skills find` sob um spinner (`gum spin`), limpa códigos de escape ANSI com `perl`, formata as colunas com `awk` e exibe a seleção com cursor customizado.
-- **`_add_skill_sync`**: Garante que skills instaladas globalmente em `~/.agents/skills/` fiquem visíveis para a CLI do Antigravity (`agy`) sem provocar duplicação ou conflito com o Gemini CLI.
-- **`_skills_check_update`**: Realiza checagem SemVer pura e assíncrona/cacheada contra a API do GitHub Releases com zero impacto de latência para o usuário.
-- **`_add_skill_gum_hint`**: Detecta qual gerenciador de pacotes do sistema está presente (`brew`, `pacman`, `dnf`, `nix-env`, `pkg`) para orientar a instalação do `gum` com o comando exato.
+- **`skills`**: Ponto de entrada e orquestrador principal. Trata ajuda, versão, dependências, checagem de updates e delega para o `_skills_select` ou repassa para o binário `npx skills`.
+- **`_skills_select`**: Executa `npx skills find` com spinner (`gum spin`), remove códigos de escape ANSI com `perl`, alinha colunas com `awk` e renderiza a seleção com `gum choose`.
+- **`_skills_sync`**: Cria o link simbólico das skills instaladas globalmente (`~/.agents/skills/<skill>`) diretamente em `~/.gemini/antigravity-cli/skills/<skill>`, deixando-as disponíveis no Antigravity CLI sem conflito com o Gemini CLI.
+- **`_skills_check_update`**: Compara SemVer da versão local contra a release oficial no GitHub utilizando redirect HTTP (`curl -sIL`) para contornar limitações de taxa (rate limit) de chamadas de API não autenticadas.
+- **`_skills_gum_hint`**: Detecta o gerenciador de pacotes da máquina (`brew`, `pacman`, `dnf`, `nix-env`, `pkg`) para instruir a instalação do `gum` caso ausente.

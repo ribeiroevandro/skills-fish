@@ -61,7 +61,7 @@ O Antigravity possui diretórios segregados:
 - **Global exclusivo (`agy`):** `~/.gemini/antigravity-cli/skills/`
 - **Compartilhado (Gemini CLI):** `~/.gemini/skills/`
 
-A função `_add_skill_sync` do `skills-fish` aponta o link simbólico exclusivamente para `~/.gemini/antigravity-cli/skills/`:
+A função `_skills_sync` do `skills-fish` aponta o link simbólico exclusivamente para `~/.gemini/antigravity-cli/skills/`:
 ```text
 ~/.agents/skills/<skill>  ──►  ~/.gemini/antigravity-cli/skills/<skill> (symlink)
 ```
