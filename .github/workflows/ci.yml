@@ -7,8 +7,8 @@ on:
     branches: [main]
 
 jobs:
-  validate:
-    name: Lint & Test
+  lint:
+    name: Syntax Validation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -21,6 +21,18 @@ jobs:
 
       - name: Validate Fish syntax
         run: fish --no-execute conf.d/*.fish completions/*.fish functions/*.fish tests/*.test.fish
+
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Fish shell
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fish
 
       - name: Install fishtape
         run: |
