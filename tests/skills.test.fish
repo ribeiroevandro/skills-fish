@@ -5,6 +5,24 @@ source functions/_skills_sync.fish
 source functions/_skills_check_update.fish
 source functions/skills.fish
 
+@test "mostra versão do plugin com flag -v" (
+    skills -v
+)[1] = "skills-fish 0.3.0"
+
+@test "mostra ajuda com status 0 ao passar -h" (
+    skills -h >/dev/null
+    echo $status
+) = 0
+
+@test "mostra ajuda sem argumentos com status 0" (
+    skills >/dev/null
+    echo $status
+) = 0
+
+@test "ajuda exibe cabeçalho de uso esperado" (
+    skills -h
+)[1] = "Uso: skills <comando> [opções]"
+
 @test "função de sync retorna 0 com segurança quando a skill não existe localmente" (
     _skills_sync "owner/repo@nonexistent-skill-xyz"
     echo $status

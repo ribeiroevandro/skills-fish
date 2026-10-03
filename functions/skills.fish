@@ -19,9 +19,33 @@ function skills --description "Gerenciador de skills (plugins) e integrações d
     # Check for update in background
     _skills_check_update $_version
 
-    if test (count $argv) -eq 0
-        npx skills
-        return $status
+    # Intercepta -v / --version
+    if contains -- -v $argv; or contains -- --version $argv
+        echo "skills-fish $_version"
+        echo "(wraps npx skills "(npx skills -v)")"
+        return 0
+    end
+
+    # Intercepta ajuda ou nenhum argumento para mostrar nossa interface
+    if test (count $argv) -eq 0; or contains -- -h $argv; or contains -- --help $argv
+        echo "Uso: skills <comando> [opções]"
+        echo ""
+        echo "Um gerenciador e instalador interativo para skills de IA."
+        echo ""
+        echo "Comandos Principais:"
+        echo "  add, a     Adiciona uma skill interativamente (ex: skills add)"
+        echo "  list, ls   Lista as skills instaladas no projeto atual"
+        echo "  remove, rm Remove skills instaladas"
+        echo "  update     Atualiza as skills instaladas"
+        echo "  find       Busca skills no diretório"
+        echo ""
+        echo "Opções da CLI (skills-fish):"
+        echo "  -h, --help     Mostra esta ajuda"
+        echo "  -v, --version  Mostra a versão do plugin (e do npx skills base)"
+        echo ""
+        echo "Nota: Qualquer outro comando ou flag é repassado diretamente ao 'npx skills'."
+        echo "Dica: Digite 'npx skills -h' para ver a lista completa de comandos avançados."
+        return 0
     end
 
     set -l subcommand $argv[1]
