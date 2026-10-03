@@ -57,6 +57,14 @@ set -g add_skill_color_header "#cba6f7"
 | `add_skill_color_error` | `#f38ba8` | Item selecionado e mensagens de erro |
 | `add_skill_color_title` | `#74c7ec` | Nome da skill no spinner de busca |
 
+## Verificação de atualizações
+
+O `add-skill` verifica periodicamente (a cada 24 horas, via cache local em `~/.cache/skills-fish/`) se existe uma versão mais recente no GitHub e avisa quando houver. Para desativar essa checagem, adicione ao seu `~/.config/fish/config.fish`:
+
+```fish
+set -g skills_fish_check_update 0
+```
+
 ## Desinstalação
 
 ```fish

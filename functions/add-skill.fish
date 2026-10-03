@@ -18,6 +18,8 @@ function add-skill --description "Busca interativa, instala e sincroniza skills 
         return 0
     end
 
+    _add_skill_check_update $_version
+
     if set -q _flag_global; and set -q _flag_project
         set_color $add_skill_color_error >&2
         echo "add-skill: escolha apenas uma forma de instalação: --global ou --project." >&2
