@@ -32,11 +32,6 @@ source functions/add-skill.fish
     echo $status
 ) = 1
 
-@test "falha com status 1 quando flags -g e -p são passadas juntas" (
-    add-skill -g -p react 2>/dev/null
-    echo $status
-) = 1
-
 @test "função de sync retorna 0 com segurança quando a skill não existe localmente" (
     _add_skill_sync "owner/repo@nonexistent-skill-xyz"
     echo $status
