@@ -7,11 +7,11 @@ source functions/add-skill.fish
 
 @test "mostra versão com flag -v" (
     add-skill -v
-) = "add-skill 0.1.2"
+) = "add-skill 0.2.0"
 
 @test "mostra versão com flag --version" (
     add-skill --version
-) = "add-skill 0.1.2"
+) = "add-skill 0.2.0"
 
 @test "mostra ajuda com flag -h com status 0" (
     add-skill -h >/dev/null
@@ -39,7 +39,7 @@ source functions/add-skill.fish
 
 @test "checagem de atualização sai com status 0 quando desativada por variável" (
     set -l skills_fish_check_update 0
-    _add_skill_check_update 0.1.2
+    _add_skill_check_update 0.2.0
     echo $status
 ) = 0
 
