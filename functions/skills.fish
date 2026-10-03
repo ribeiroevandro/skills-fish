@@ -32,9 +32,9 @@ function skills --description "Gerenciador de skills (plugins) e integrações d
     end
 
     set -l missing
-    if not command -q gum
+    if not type -q gum
         set missing gum (_skills_gum_hint)
-    else if not command -q npx
+    else if not type -q npx
         set missing npx "instale o Node.js: https://nodejs.org"
     end
 
