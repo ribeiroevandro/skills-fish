@@ -18,15 +18,14 @@ function _skills_check_update
 
     set -l latest_tag $cached_tag
 
-    # Se nunca checou ou o cache expirou (24 horas = 86400 segundos)
-    if test -z "$last_check" -o (math "$now - $last_check") -ge 86400
-        set -l fetched (curl -s -m 1 "https://api.github.com/repos/ribeiroevandro/skills-fish/releases/latest" 2>/dev/null \
-            | grep '"tag_name":' | head -n 1 | sed -E 's/.*"tag_name": *"([^"]+)".*/\1/')
-        if test -n "$fetched"
+    # Se nunca checou, cache sem tag válida ou expirou (24 horas = 86400 segundos)
+    if test -z "$last_check" -o -z "$cached_tag" -o (math "$now - $last_check") -ge 86400
+        set -l fetched (curl -sIL -o /dev/null -w "%{url_effective}" -m 2 "https://github.com/ribeiroevandro/skills-fish/releases/latest" 2>/dev/null | string split --right -m 1 /)[-1]
+        if string match -qr '^v?[0-9]+' -- $fetched
             set latest_tag $fetched
+            mkdir -p $cache_dir 2>/dev/null
+            echo "$now $latest_tag" > $cache_file 2>/dev/null
         end
-        mkdir -p $cache_dir 2>/dev/null
-        echo "$now $latest_tag" > $cache_file 2>/dev/null
     end
 
     test -n "$latest_tag"; or return 0
