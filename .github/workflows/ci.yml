@@ -8,7 +8,7 @@ on:
 
 jobs:
   validate:
-    name: Syntax & Lint
+    name: Lint & Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
