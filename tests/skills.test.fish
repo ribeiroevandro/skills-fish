@@ -24,8 +24,11 @@ source functions/skills.fish
 )[1] = "Uso: skills <comando> [opções]"
 
 @test "falha com status 1 quando 'add' não recebe argumentos" (
+    function gum; end; function npx; end
     skills add 2>/dev/null
-    echo $status
+    set -l stat $status
+    functions -e gum npx
+    echo $stat
 ) = 1
 
 @test "função de sync retorna 0 com segurança quando a skill não existe localmente" (
