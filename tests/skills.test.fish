@@ -4,6 +4,7 @@ source functions/_skills_select.fish
 source functions/_skills_sync.fish
 source functions/_skills_check_update.fish
 source functions/skills.fish
+source functions/sk.fish
 
 @test "mostra versão do plugin com flag -v" (
     skills -v
@@ -54,3 +55,7 @@ source functions/skills.fish
     skills add -g vercel-labs/agent-skills@vercel-optimize
     functions -e gum npx
 ) = "cmd:add flag:-g target:vercel-labs/agent-skills@vercel-optimize"
+
+@test "alias 'sk' executa o wrapper perfeitamente e repassa argumentos" (
+    sk -v
+)[1] = "skills-fish 0.6.3"
