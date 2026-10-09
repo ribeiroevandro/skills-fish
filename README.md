@@ -91,6 +91,7 @@ Para aprofundar na arquitetura e funcionamento interno do plugin:
 - [Arquitetura do Plugin](docs/arquitetura.md) — fluxo do comando `skills`, separação de funções e wrapper.
 - [Interoperabilidade com Assistentes de IA](docs/interoperabilidade-ia.md) — comparativo entre ferramentas e prevenção de conflitos de symlink.
 - [Versionamento e Releases](docs/versionamento-e-releases.md) — SemVer, Makefile, automação no GitHub Actions e publicação.
+- [Roadmap](docs/roadmap.md) — melhorias planejadas, interatividade e expansão para outros shells (Zsh).
 
 ## Desinstalação
 
