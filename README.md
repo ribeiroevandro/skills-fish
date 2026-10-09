@@ -34,9 +34,13 @@ fisher install ribeiroevandro/skills-fish
 
 ## Uso
 
+O plugin também fornece o atalho `sk` por padrão:
+
 ```fish
 # Busca e instalação interativa
 skills add react
+# ou
+sk add react
 
 # Instalação direta (suporta todas as flags do npx skills)
 skills add -g vercel-labs/agent-skills@vercel-optimize

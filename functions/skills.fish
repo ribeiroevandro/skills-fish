@@ -10,6 +10,7 @@ function skills --description "Gerenciador de skills (plugins) e integrações d
     # Intercepta ajuda ou nenhum argumento para mostrar nossa interface
     if test (count $argv) -eq 0; or test "$argv[1]" = "-h"; or test "$argv[1]" = "--help"
         echo "Uso: skills <comando> [opções]"
+        echo "     sk <comando> [opções] (atalho)"
         echo ""
         echo "Um gerenciador e instalador interativo para skills de IA."
         echo ""
