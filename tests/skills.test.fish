@@ -8,7 +8,7 @@ source functions/sk.fish
 
 @test "mostra versão do plugin com flag -v" (
     skills -v
-)[1] = "skills-fish 0.6.3"
+)[1] = "skills-fish 0.6.4"
 
 @test "mostra ajuda com status 0 ao passar -h" (
     skills -h >/dev/null
@@ -39,7 +39,7 @@ source functions/sk.fish
 
 @test "checagem de atualização sai com status 0 quando desativada por variável" (
     set -l skills_fish_check_update 0
-    _skills_check_update 0.6.3
+    _skills_check_update 0.6.4
     echo $status
 ) = 0
 
@@ -58,4 +58,4 @@ source functions/sk.fish
 
 @test "alias 'sk' executa o wrapper perfeitamente e repassa argumentos" (
     sk -v
-)[1] = "skills-fish 0.6.3"
+)[1] = "skills-fish 0.6.4"
